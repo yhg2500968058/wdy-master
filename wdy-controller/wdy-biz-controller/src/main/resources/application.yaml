@@ -1,0 +1,29 @@
+swagger:
+  enabled: true
+server:
+  port: 8084
+
+spring:
+  application:
+    name: wdy-biz-controller
+dubbo:
+  registry:
+    address: nacos://47.100.37.176:8848
+  protocol:
+      port: -1
+  consumer:
+      check: false
+logging:
+  level:
+    boot: info
+#ftp
+ftp:
+  port: 21
+  username: ftptest
+  password: yang....
+  address: 47.100.37.176
+  base:
+    path: /home/ftptest/develop
+  image:
+    base:
+     url: http://47.100.37.176:9999/develop

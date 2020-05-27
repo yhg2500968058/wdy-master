@@ -1,0 +1,30 @@
+swagger:
+  enabled: true
+
+server:
+  port: 8081
+
+spring:
+  application:
+    name: wdy-product-controller
+dubbo:
+  registry:
+    address: nacos://47.100.37.176:8848
+  protocol:
+    port: 20884
+  consumer:
+    check: false
+    timeout: 10000
+
+#ftp
+ftp:
+  port: 21
+  username: ftptest
+  password: yang....
+  address: 47.100.37.176
+  base:
+      path: /home/ftptest/develop
+  image:
+     base:
+      url: http://47.100.37.176:9999/develop
+

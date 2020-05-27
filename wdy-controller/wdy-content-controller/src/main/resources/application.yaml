@@ -1,0 +1,21 @@
+swagger:
+  enabled: true
+
+server:
+  port: 8085
+
+spring:
+  application:
+    name: wdy-content-controller
+
+dubbo:
+  registry:
+    address: nacos://47.100.37.176:8848
+  # 提供者需要配置扫描接口
+  # scan:
+  # base-packages: com.wdy.content.web.service.impl
+  protocol:
+    port: -1
+  #消费者默认不检查是否有服务注册
+  consumer:
+    check: false

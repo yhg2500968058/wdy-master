@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wdy.product.mapper.TbGoodsMapper">
+
+	<!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.wdy.product.model.dto.Goods">
+        <id column="id" property="id" />
+        <result column="seller_id" property="sellerId" />
+        <result column="goods_name" property="goodsName" />
+        <result column="default_item_id" property="defaultItemId" />
+        <result column="audit_status" property="auditStatus" />
+        <result column="is_marketable" property="isMarketable" />
+        <result column="brand_id" property="brandId" />
+        <result column="caption" property="caption" />
+        <result column="category1_id" property="category1IdName" />
+        <result column="category2_id" property="category2IdName" />
+        <result column="category3_id" property="category3IdName" />
+        <result column="small_pic" property="smallPic" />
+        <result column="price" property="price" />
+        <result column="type_template_id" property="typeTemplateId" />
+        <result column="is_enable_spec" property="isEnableSpec" />
+        <result column="is_delete" property="isDelete" />
+    </resultMap>
+
+	<select id="findPage" parameterType="java.lang.String" resultType="com.wdy.product.model.dto.Goods" >
+		select a.id as id,
+       a.seller_id as sellerId,
+       goods_name as goodsName,
+       default_item_id as defaultItemId,
+       audit_status as auditStatus,
+       is_marketable as isMarketable,
+       brand_id as brandId,
+       caption as caption,
+       b.name as category1IdName,
+       b1.name as category2IdName,
+       b2.name as category3IdName,
+       small_pic as smallPic,
+       price as price,
+       type_template_id as typeTemplateId,
+       is_enable_spec as isEnableSpec,
+       is_delete as isDelete
+from tb_goods a inner join tb_item_cat b  on a.category1_id = b.id
+        inner join tb_item_cat b1 on a.category2_id = b1.id
+        inner join tb_item_cat b2 on a.category3_id = b2.id
+        where
+        <if test="search neq null">
+            a.goods_name like #{search} and
+        </if>
+        a.audit_status = '0' limit #{page},#{rows}
+	</select>
+
+    <select id="findTotal" parameterType="java.lang.String" resultType="Long">
+        select count(audit_status) from tb_goods where
+    <if test="name neq null">
+                tb_goods.goods_name like #{name} and
+    </if>
+     audit_status = #{longs} group by audit_status
+    </select>
+
+    <select id="searchTotal" parameterType="com.wdy.product.model.dto.Goods" resultType="Long">
+       select count(seller_id)
+ from tb_goods
+ where
+ seller_id = #{username}
+ <if test="goods.auditStatus neq null">
+     and audit_status = #{goods.auditStatus}
+ </if>
+  <if test="goods.goodsName neq null">
+  and goods_name=#{goods.goodsName}
+  </if>
+group by seller_id;
+    </select>
+
+    <select id="search" parameterType="com.wdy.product.model.dto.Goods" resultType="com.wdy.product.model.dto.Goods">
+select a.id as          id,
+       seller_id        sellerId,
+       goods_name       goodsName,
+       default_item_id  defaultItemId,
+       audit_status     auditStatus,
+       is_marketable    isMarketable,
+       brand_id         brandId,
+       caption          caption,
+       b.name           category1IdName,
+       b1.name          category2IdName,
+       b2.name          category3IdName,
+       small_pic        smallPic,
+       price            price,
+       type_template_id typeTemplateId,
+       is_enable_spec   isEnableSpec,
+       is_delete        isDelete
+from tb_goods a
+         inner join tb_item_cat b on a.category1_id = b.id
+         inner join tb_item_cat b1 on a.category2_id = b1.id
+         inner join tb_item_cat b2 on a.category3_id = b2.id
+where
+    <if test="goods.goodsName neq null">
+  goods_name like #{goods.goodsName} and
+    </if>
+    <if test="goods.auditStatus neq null">
+   a.audit_status = #{goods.auditStatus} and
+    </if>
+     seller_id = #{username}
+limit #{page1},#{rows}
+    </select>
+
+
+
+</mapper>

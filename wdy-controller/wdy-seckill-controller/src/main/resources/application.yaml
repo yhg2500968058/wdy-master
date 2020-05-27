@@ -1,0 +1,18 @@
+swagger:
+  enabled: true
+
+server:
+  port: 8086
+
+spring:
+  application:
+    name: wdy-seckill-controller
+
+dubbo:
+  registry:
+    address: nacos://47.100.37.176:8848
+  protocol:
+    port: 20884
+  consumer:
+    check: false
+    timeout: 10000
